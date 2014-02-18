@@ -1,5 +1,5 @@
 scaffolder for d3.js and topojson on french communes
-====================================================-
+====================================================
 
 
 Version
@@ -7,7 +7,7 @@ Version
 
 0.0.1
 
-Dependencies
+Dependencies & Tutorials
 -----------
 
 * [make a map] - tutorial for topojson and d3.js by Mike Bostock
