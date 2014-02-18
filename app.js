@@ -57,7 +57,7 @@
     var inseeScale = d3.scale.linear()
       .domain([0, 100000])
       .range(['#ffffff', '#0000ff']);
-    communesPath.transition().duration(1)
+    communesPath && communesPath.transition().duration(1)
       .style('fill', function(d){
         return inseeScale(parseInt(d.id.replace(/[a-zA-Z]/g, '0')));
       });
