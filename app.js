@@ -54,15 +54,30 @@
    * update
    */
   function update(){
-    var inseeScale = d3.scale.linear()
-      .domain([0, 100000])
-      .range(['#ffffff', '#0000ff']);
-    communesPath && communesPath.transition().duration(1)
-      .style('fill', function(d){
-        return inseeScale(parseInt(d.id.replace(/[a-zA-Z]/g, '0')));
-      });
+
+    d3.json('data/salaires-2010.json', function(salaries){
+      var salaryScale = d3.scale.linear()
+        .domain([0, 30])
+        .range(['#ffffff', '#0000ff']);
+      communesPath && communesPath.transition().duration(1)
+        .style('fill', function(d){
+          if(d.id in salaries){
+            return salaryScale(salaries[d.id]);
+          }else {
+            return 'white';
+          }
+          // return inseeScale(parseInt(d.id.replace(/[a-zA-Z]/g, '0')));
+        })
+        .style('stroke', function(d){
+          if(d.id in salaries){
+            return salaryScale(salaries[d.id]);
+          }else {
+            return 'white';
+          }
+        });
+    });
   };
 
   $('.update').on('click', update);
 
-})(d3, jQuery, '.container')
+})(d3, jQuery, '.container');
