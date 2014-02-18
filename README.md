@@ -11,7 +11,7 @@ Dependencies & Tutorials
 -----------
 
 * [make a map] - tutorial for topojson and d3.js by Mike Bostock
-* [topojson] - TopoJSON is an extension of GeoJSON that encodes topology
+* [topojson] - TopoJSON is an extension gut of GeoJSON that encodes topology
 * [d3] - d3.js
 * [bower] - bower is a package manager for the web by twitter
 * jQuery

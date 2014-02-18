@@ -11,13 +11,18 @@
       .append('svg')
       .attr('class', 'd3-svg')
       // a container for communes path
-    , gCommunes = svg.append('svg:g');
+    , gCommunes = svg.append('svg:g')
+    , communesPath = null;
 
   (function setup(){
     /* set up */
     d3.json('data/communes.topojson', draw);
   })();
 
+  /**
+   * init draw
+   * @param communes
+   */
   function draw(communes){
 
     console.log('draw');
@@ -37,14 +42,27 @@
 
 
     // draw topojson
-    var communesPath = gCommunes.selectAll('.commune').data(topojson.feature(communes, communes.objects.commune).features);
+    communesPath = gCommunes.selectAll('.commune').data(topojson.feature(communes, communes.objects.commune).features);
     communesPath.enter().append('svg:path')
       .attr('class', function(d,i){
-        return 'commune ' + (parseInt(d.id)%2 == 0 ? 'commune-paire' : 'commune-impaire');
+        return 'commune ' + (parseInt(d.id.replace(/[a-zA-Z]/g, '0'))%2 == 0 ? 'commune-paire' : 'commune-impaire');
       })
       .attr('d', path);
-
-
   };
+
+  /**
+   * update
+   */
+  function update(){
+    var inseeScale = d3.scale.linear()
+      .domain([0, 100000])
+      .range(['#ffffff', '#0000ff']);
+    communesPath.transition().duration(1)
+      .style('fill', function(d){
+        return inseeScale(parseInt(d.id.replace(/[a-zA-Z]/g, '0')));
+      });
+  };
+
+  $('.update').on('click', update);
 
 })(d3, jQuery, '.container')
