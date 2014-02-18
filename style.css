@@ -9,7 +9,9 @@
 }
 
 .d3-svg .commune {
-    stroke: none;
+    stroke: black;
+    fill: none;
+    stroke-width: .5;
     shape-rendering: auto;
 }
 

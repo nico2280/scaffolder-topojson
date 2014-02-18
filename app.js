@@ -31,7 +31,7 @@
       , height = $container.height()
       // projection see http://d3js.org
       , projection = d3.geo.albers()
-        .scale(5000)
+        .scale(3000)
         .center([1, 46.5])
         .rotate([-2, 0])
         .parallels([30, 50])
@@ -44,40 +44,39 @@
     // draw topojson
     communesPath = gCommunes.selectAll('.commune').data(topojson.feature(communes, communes.objects.commune).features);
     communesPath.enter().append('svg:path')
-      .attr('class', function(d,i){
-        return 'commune ' + (parseInt(d.id.replace(/[a-zA-Z]/g, '0'))%2 == 0 ? 'commune-paire' : 'commune-impaire');
-      })
+      .attr('class', 'commune')
       .attr('d', path);
   };
 
   /**
-   * update
+   * salary
    */
-  function update(){
+  function salary(){
 
     d3.json('data/salaires-2010.json', function(salaries){
       var salaryScale = d3.scale.linear()
         .domain([0, 30])
-        .range(['#ffffff', '#0000ff']);
+        .range(['#ffffff', '#0000ff'])
+				, getSalary = function(d){
+					if(d.id.match(/^75/)){ // arrondissements parisiens
+						return salaryScale(salaries['75056']);
+					}else if(d.id.match(/^6938/)){ // arrondissements lyon
+						return salaryScale(salaries['69123']);
+					}else if(d.id.match(/^132/)){ // arrondissements marseille
+						return salaryScale(salaries['13055'	]);
+					}else if(d.id in salaries){
+						return salaryScale(salaries[d.id]);
+					}else {
+						return 'white';
+					}
+				};
+
       communesPath && communesPath.transition().duration(1)
-        .style('fill', function(d){
-          if(d.id in salaries){
-            return salaryScale(salaries[d.id]);
-          }else {
-            return 'white';
-          }
-          // return inseeScale(parseInt(d.id.replace(/[a-zA-Z]/g, '0')));
-        })
-        .style('stroke', function(d){
-          if(d.id in salaries){
-            return salaryScale(salaries[d.id]);
-          }else {
-            return 'white';
-          }
-        });
+        .style('fill', getSalary)
+        .style('stroke', getSalary);
     });
   };
 
-  $('.update').on('click', update);
+  $('.salary').on('click', salary);
 
 })(d3, jQuery, '.container');
