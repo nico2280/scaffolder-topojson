@@ -1,0 +1,22 @@
+.container {
+    height: 100%;
+    width: 100%;
+}
+
+.d3-svg {
+    height: 100%;
+    width: 100%;
+}
+
+.d3-svg .commune {
+    stroke: none;
+    shape-rendering: auto;
+}
+
+.d3-svg .commune-paire {
+    fill: blue;
+}
+
+.d3-svg .commune-impaire {
+    fill: red;
+}
