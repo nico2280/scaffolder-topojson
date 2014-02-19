@@ -1,6 +1,7 @@
 scaffolder for d3.js and topojson on french communes
 ====================================================
 
+![Population evolution](https://raw2.github.com/nico2280/scaffolder-topojson/master/img/evol-pop.png)
 
 Version
 ----
