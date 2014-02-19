@@ -79,4 +79,31 @@
 
   $('.salary').on('click', salary);
 
+  function evolPop(){
+    d3.json('data/evolution-population-99-10.json', function(evols){
+      var evolScale = d3.scale.linear()
+        .domain([-50,0,50])
+        .range(['red', 'white', 'blue'])
+        , getEvolPop = function(d){
+          if(d.id.match(/^75/)){ // arrondissements parisiens
+            return evolScale(evols['75056']);
+          }else if(d.id.match(/^6938/)){ // arrondissements lyon
+            return evolScale(evols['69123']);
+          }else if(d.id.match(/^132/)){ // arrondissements marseille
+            return evolScale(evols['13055'	]);
+          }else if(d.id in evols){
+            return evolScale(evols[d.id]);
+          }else {
+            return 'white';
+          }          
+        };
+
+      communesPath && communesPath.transition().duration(1)
+        .style('fill', getEvolPop)
+        .style('stroke', getEvolPop);
+    });
+  };
+
+  $('.evol').on('click', evolPop);
+
 })(d3, jQuery, '.container');
